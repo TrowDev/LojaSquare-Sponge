@@ -26,12 +26,18 @@ public class Shop {
 	// Get all delivery's
 	public List<Item> getAllDelivery() {
 		List<Item> result = new ArrayList<>();
-		
+
 		String jsonResult = this.get("/v1/queue/*");
-		JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
-		for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
-			Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
-			result.add(item);
+		if(jsonResult == null) return result;
+		try {
+			System.out.println("[LojaSquare] JSON Response: "+jsonResult);
+			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
+			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
+				Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
+				result.add(item);
+			}
+		} catch (Exception e) {
+			System.out.println(jsonResult);
 		}
 		
 		return result;
@@ -42,10 +48,15 @@ public class Shop {
 		List<Item> result = new ArrayList<>();
 		
 		String jsonResult = this.get("/v1/queue/" + player);
-		JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
-		for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
-			Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
-			result.add(item);
+		if(jsonResult == null) return result;
+		try {
+			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
+			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
+				Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
+				result.add(item);
+			}
+		} catch (Exception e) {
+			System.out.println(jsonResult);
 		}
 		
 		return result;
@@ -100,7 +111,8 @@ public class Shop {
 		}
 		
 		// Return the response by status code
-		return this.getResponseByCode(statusCode);
+		LojaSquare.get().log(this.getResponseByCode(statusCode));
+		return null;
 	}
 	
 	// Update the JsonObject in API
