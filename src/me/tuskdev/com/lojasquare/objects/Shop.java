@@ -30,7 +30,6 @@ public class Shop {
 		String jsonResult = this.get("/v1/queue/*");
 		if(jsonResult == null) return result;
 		try {
-			System.out.println("[LojaSquare] JSON Response: "+jsonResult);
 			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
 			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
 				Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
@@ -163,7 +162,7 @@ public class Shop {
 		if(statusCode == 0) return "§cO servidor está sem conexão com a internet.";
 		else if(statusCode == 401) return "§cConexão não autorizada! Por favor, confira se a sua credencial está correta.";
 		else if(statusCode == 403) return "§cO IP inserido é diferente do que temos em nosso Banco de Dados. IP da sua maquina: §a"+ this.get("/v1/autenticar/ip");
-		else if(statusCode == 404) return "§cNão foi possível encontrado algum registro para a requisição efetuada.";
+		else if(statusCode == 404) return "§cNão foi encontrado nenhuma ordem de entrega (Não há produtos para serem entregues).";
 		else if(statusCode == 405) return "§cErro ao autenticar sua loja! Verifique se sua assinatura e credencial são válidas!";
 		else if(statusCode == 406) return "§cNão foi executada nenhuma atualização referente ao requerimento efetuado.";
 		return "§cProvavel falha causada por entrada de dados incompativeis com o requerimento efetuado. Status Code: " + statusCode;
