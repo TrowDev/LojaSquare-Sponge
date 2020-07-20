@@ -35,9 +35,8 @@ public class ConnectionManager {
 	// Verify if is valid IP
 	public Boolean checkIP() {
 		String jsonResult = this.shop.get("/v1/autenticar");
-		Boolean result = jsonResult.contains("true");
 		
-		if(!(result)) {
+		if( jsonResult.startsWith("LS-") || !jsonResult.contains("true")) {
 			LojaSquare.get().log("§3[LojaSquare] §cO sistema esta sendo desabilitado.");
 			LojaSquare.get().log("§3[LojaSquare] §cMotivo: " + jsonResult);
 			LojaSquare.get().log("§3[LojaSquare] §cKey-API: " + LojaSquare.get().getConfigManager().KEY_API);
@@ -47,7 +46,7 @@ public class ConnectionManager {
 		}
 		
 		LojaSquare.get().log("§a[LojaSquare] A conexão com sua loja foi estabelecida com sucesso.");
-		return result;
+		return true;
 	}
 	
 	// Verify if is valid server

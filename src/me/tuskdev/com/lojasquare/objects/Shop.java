@@ -28,7 +28,7 @@ public class Shop {
 		List<Item> result = new ArrayList<>();
 
 		String jsonResult = this.get("/v1/queue/*");
-		if(jsonResult == null) return result;
+		if(jsonResult.startsWith("LS-")) return result;
 		try {
 			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
 			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
@@ -47,7 +47,7 @@ public class Shop {
 		List<Item> result = new ArrayList<>();
 		
 		String jsonResult = this.get("/v1/queue/" + player);
-		if(jsonResult == null) return result;
+		if(jsonResult.startsWith("LS-")) return result;
 		try {
 			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
 			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
@@ -110,8 +110,7 @@ public class Shop {
 		}
 		
 		// Return the response by status code
-		LojaSquare.get().log(this.getResponseByCode(statusCode));
-		return null;
+		return "LS-"+this.getResponseByCode(statusCode);
 	}
 	
 	// Update the JsonObject in API
