@@ -2,7 +2,7 @@ package me.tuskdev.com.lojasquare.objects;
 
 public class Item {
 	
-	private String player,produto,servidor,subServidor,grupo,codigo,status;
+	private String player,produto,servidor,subServidor,grupo,codigo,status,cupom;
 	private int statusID,dias,idEntrega,quantidade;
 	private long atualizadoEm;
 	
@@ -31,7 +31,8 @@ public class Item {
 					+ "dias:"+dias+","
 					+ "idEntrega:"+idEntrega+","
 					+ "quantidade:"+quantidade+","
-					+ "lastUpdate:"+atualizadoEm
+					+ "lastUpdate:"+atualizadoEm+","
+					+ "cupom:"+cupom
 				+"}";
 		return a;
 	}
@@ -86,6 +87,14 @@ public class Item {
 	
 	public int getStatusID(){
 		return statusID;
+	}
+
+	public String getCupom() {
+		return cupom;
+	}
+
+	public void setCupom(String cupom) {
+		this.cupom = cupom;
 	}
 	
 }
