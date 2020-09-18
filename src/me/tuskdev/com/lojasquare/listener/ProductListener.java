@@ -87,20 +87,6 @@ public class ProductListener {
 			Sponge.getCommandManager().process(Sponge.getServer().getConsole(), command);
 		}
 		
-		// Inform the player
-		if(LojaSquare.get().getConfigManager().getGroup(item.getGrupo()).get("Enviar_Mensagem").getBoolean()) {
-			List<String> messages = LojaSquare.get().getConfigManager().getGroup(item.getGrupo()).get("Mensagem_Receber_Ao_Ativar_Produto").getList(object -> (String)object);
-			for(String message : messages) {
-				message = message.replace("&", "§")
-						.replace("@grupo", item.getGrupo())
-						.replace("@produto", item.getProduto())
-						.replace("@dias", item.getDias()+"")
-						.replace("@qnt", item.getQuantidade()+"")
-						.replace("@player", event.getPlayer().getName());
-				event.getPlayer().sendMessage(Text.of(message));
-			}
-		}
-		
 		// Inform
 		LojaSquare.get().log("§3[LojaSquare] §bEntrega do produto §a" + item.toString() + "§b concluida com sucesso.");
 	}
@@ -139,6 +125,15 @@ public class ProductListener {
 			}
 		}
 		
+		// Inform
+		LojaSquare.get().log("§3[LojaSquare] §bEntrega do produto §a" + item.toString() + "§b concluida com sucesso.");
+	}
+	
+	@Listener
+	public void onActiveNotifyPlayer(ProductActiveEvent event) {
+
+		Item item = event.getItem();
+		
 		// Inform the player
 		if(LojaSquare.get().getConfigManager().getGroup(item.getGrupo()).get("Enviar_Mensagem").getBoolean()) {
 			List<String> messages = LojaSquare.get().getConfigManager().getGroup(item.getGrupo()).get("Mensagem_Receber_Ao_Ativar_Produto").getList(object -> (String)object);
@@ -148,12 +143,11 @@ public class ProductListener {
 						.replace("@produto", item.getProduto())
 						.replace("@dias", item.getDias()+"")
 						.replace("@qnt", item.getQuantidade()+"")
-						.replace("@player", event.getPlayer().getName());
+						.replace("@player", event.getPlayer().getName())
+						.replace("@cupom", item.getCupom());
 				event.getPlayer().sendMessage(Text.of(message));
 			}
 		}
-		
-		// Inform
-		LojaSquare.get().log("§3[LojaSquare] §bEntrega do produto §a" + item.toString() + "§b concluida com sucesso.");
 	}
+	
 }

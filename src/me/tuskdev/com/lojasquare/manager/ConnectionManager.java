@@ -98,7 +98,6 @@ public class ConnectionManager {
 							player = Sponge.getServer().getPlayer(item.getPlayer()).get();
 						} catch (Exception e) {
 							print("§4[LojaSquare] §cPlayer §a"+item.getPlayer()+"§c nao esta online.");
-							continue;
 						}
 						
 						// Verify if is valid group and player
