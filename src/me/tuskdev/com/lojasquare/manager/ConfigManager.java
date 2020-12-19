@@ -43,7 +43,11 @@ public class ConfigManager {
 		// Integer
 		this.CONNECTION_TIMEOUT = config.getConfig().getNode("LojaSquare", "Connection_Timeout").getInt();
 		this.READ_TIMEOUT = config.getConfig().getNode("LojaSquare", "Read_Timeout").getInt();
-		this.TIME_CHECK_BUYS = config.getConfig().getNode("Config", "Tempo_Checar_Compras").getInt();
+		int tempoChecagem = config.getConfig().getNode("Config", "Tempo_Checar_Compras").getInt();
+		if(tempoChecagem < 20) {
+			tempoChecagem = 20;
+		}
+		this.TIME_CHECK_BUYS = tempoChecagem;
 		
 		// Boolean
 		this.DEBUG_MODE = config.getConfig().getNode("LojaSquare", "Debug").getBoolean();

@@ -17,6 +17,8 @@ import me.tuskdev.com.lojasquare.LojaSquare;
 
 public class Shop {
 	
+	private String ipMaquina;
+	
 	// Update the delivery
 	public Boolean updateDelivery(Item item) {
 		if(item == null) return false;
@@ -70,8 +72,9 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
+			URL url = new URL("https://ws.lojasquare.com.br" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
+			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("GET");
 			urlConnection.setRequestProperty("Authorization", LojaSquare.get().getConfigManager().KEY_API);
 			urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -122,8 +125,9 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
+			URL url = new URL("https://ws.lojasquare.com.br" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
+			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("PUT");
 			urlConnection.setRequestProperty("Authorization", LojaSquare.get().getConfigManager().KEY_API);
 			urlConnection.setRequestProperty("Content-Type", "application/json");
@@ -157,14 +161,50 @@ public class Shop {
 	}
 	
 	// Get the response by status code
-	public String getResponseByCode(Integer statusCode) {
-		if(statusCode == 0) return "§cO servidor está sem conexão com a internet.";
-		else if(statusCode == 401) return "§cConexão não autorizada! Por favor, confira se a sua credencial está correta.";
-		else if(statusCode == 403) return "§cO IP inserido é diferente do que temos em nosso Banco de Dados. IP da sua maquina: §a"+ this.get("/v1/autenticar/ip");
-		else if(statusCode == 404) return "§cNão foi encontrado nenhuma ordem de entrega (Não há produtos para serem entregues).";
-		else if(statusCode == 405) return "§cErro ao autenticar sua loja! Verifique se sua assinatura e credencial são válidas!";
-		else if(statusCode == 406) return "§cNão foi executada nenhuma atualização referente ao requerimento efetuado.";
-		return "§cProvavel falha causada por entrada de dados incompativeis com o requerimento efetuado. Status Code: " + statusCode;
+
+	public String getResponseByCode(int i) {
+		String msg = "";
+		switch (i) {
+		case 0:
+			msg = "[LojaSquare] §cServidor sem conexao com a internet.";
+			break;
+		case 401:
+			msg = "[LojaSquare] §cConexao nao autorizada! Por favor, confira se a sua credencial esta correta.";
+			break;
+		case 404:
+			msg = "[LojaSquare] §cNao foi encontrado nenhum registro para a requisicao efetuada.";
+			break;
+		case 405:
+			msg = "[LojaSquare] §cErro ao autenticar sua loja! Verifique se sua assinatura e credencial estao ativas!";
+			break;
+		case 406:
+			msg = "[LojaSquare] §cNao foi executada nenhuma atualizacao referente ao requerimento efetuado.";
+			break;
+		case 409:
+			msg = "[LojaSquare] §cO IP enviado e diferente do que temos em nosso Banco de Dados. IP da sua Maquina: §a" + getIpMaquina();
+			break;
+		case 423:
+			msg = "[LojaSquare] §cO IP da maquina do seu servidor ou a sua key-api foram bloqueados.";
+			break;
+		default:
+			msg = "[LojaSquare] §cProvavel falha causada por entrada de dados incompativeis com o requerimento efetuado. Status Code: " + i;
+			break;
+		}
+		return msg;
+	}
+
+	public String getIpMaquina() {
+		if (ipMaquina == null) {
+			String getIP = this.get("/v1/autenticar/ip");
+			// checagem criada para evitar erros de repetição como este:
+			// https://prnt.sc/vql2p3
+			if (getIP.length() > 20) {
+				ipMaquina = "não identificado.";
+			} else {
+				ipMaquina = getIP;
+			}
+		}
+		return ipMaquina;
 	}
 
 }
