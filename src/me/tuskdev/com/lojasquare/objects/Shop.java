@@ -72,7 +72,7 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://ws.lojasquare.com.br" + endpoint);
+			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
 			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("GET");
@@ -125,7 +125,7 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://ws.lojasquare.com.br" + endpoint);
+			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
 			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("PUT");
