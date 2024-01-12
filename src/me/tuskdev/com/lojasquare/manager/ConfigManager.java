@@ -36,7 +36,7 @@ public class ConfigManager {
 		this.config = config;
 		
 		// String
-		this.KEY_API = config.getConfig().getNode("LojaSquare", "Key_API").getString();
+		this.KEY_API = config.getConfig().getNode("LojaSquare", "Secret_API").getString();
 		this.SERVER = config.getConfig().getNode("LojaSquare", "Servidor").getString();
 		this.PRODUCT_NO_CONFIG = config.getConfig().getNode("Msg", "Produto_Nao_Configurado").getString().replace("&", "§");
 		

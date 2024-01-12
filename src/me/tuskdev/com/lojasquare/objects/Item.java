@@ -3,7 +3,7 @@ package me.tuskdev.com.lojasquare.objects;
 public class Item {
 	
 	private String player,produto,servidor,subServidor,grupo,codigo,status,cupom;
-	private int statusID,dias,idEntrega,quantidade;
+	private int statusID,dias,entregaID,quantidade;
 	private long atualizadoEm;
 	
 	public Item(String p){
@@ -29,7 +29,7 @@ public class Item {
 					+ "status:"+status
 					+",statusID:"+statusID+","
 					+ "dias:"+dias+","
-					+ "idEntrega:"+idEntrega+","
+					+ "entregaID:"+entregaID+","
 					+ "quantidade:"+quantidade+","
 					+ "lastUpdate:"+atualizadoEm+","
 					+ "cupom:"+cupom
@@ -77,8 +77,8 @@ public class Item {
 		return quantidade;
 	}
 	
-	public int getIDEntrega(){
-		return idEntrega;
+	public int getEntregaID(){
+		return entregaID;
 	}
 	
 	public int getDias(){

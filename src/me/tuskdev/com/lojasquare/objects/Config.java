@@ -62,7 +62,7 @@ public class Config {
 	private void generate() {
 		// LojaSquare configuration
 		this.configNode.getNode("LojaSquare", "Debug").setValue(true);
-		this.configNode.getNode("LojaSquare", "Key_API").setValue("lojasquare-key-api");
+		this.configNode.getNode("LojaSquare", "Secret_API").setValue("lojasquare-secret-api");
 		this.configNode.getNode("LojaSquare", "Servidor").setValue("Nome-Do-Servidor");
 		this.configNode.getNode("LojaSquare", "Connection_Timeout").setValue(1500);
 		this.configNode.getNode("LojaSquare", "Read_Timeout").setValue(3000);

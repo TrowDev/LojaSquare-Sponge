@@ -10,7 +10,8 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import me.tuskdev.com.lojasquare.LojaSquare;
@@ -22,41 +23,26 @@ public class Shop {
 	// Update the delivery
 	public Boolean updateDelivery(Item item) {
 		if(item == null) return false;
-		return this.update(String.format("/v1/queue/%s/%d", item.getPlayer(), item.getIDEntrega()));
+		return this.update(String.format("/v1/entregas/%d/entregue", item.getEntregaID()));
 	}
 	
 	// Get all delivery's
 	public List<Item> getAllDelivery() {
 		List<Item> result = new ArrayList<>();
 
-		String jsonResult = this.get("/v1/queue/*");
+		Gson gson = new Gson();
+		String status = "1";
+		String endpoint = "/v1/entregas/"+status+"&status="+status;
+		String jsonResult = this.get(endpoint);
 		if(jsonResult.startsWith("LS-")) return result;
 		try {
-			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
-			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
-				Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
+			JsonArray jsonObject = new JsonParser().parse(jsonResult).getAsJsonArray();
+			for(JsonElement je : jsonObject) {
+				Item item = gson.fromJson(je, Item.class);
 				result.add(item);
 			}
 		} catch (Exception e) {
-			System.out.println(jsonResult);
-		}
-		
-		return result;
-	}
-	
-	// Get all delivery's of player
-	public List<Item> getAllDelivery(String player) {
-		List<Item> result = new ArrayList<>();
-		
-		String jsonResult = this.get("/v1/queue/" + player);
-		if(jsonResult.startsWith("LS-")) return result;
-		try {
-			JsonObject jsonObject = new JsonParser().parse(jsonResult).getAsJsonObject();
-			for (Integer index = 1; index <= jsonObject.entrySet().size(); index++) {
-				Item item = new Gson().fromJson(jsonObject.getAsJsonObject(index.toString()), Item.class);
-				result.add(item);
-			}
-		} catch (Exception e) {
+			e.printStackTrace();
 			System.out.println(jsonResult);
 		}
 		
@@ -72,7 +58,7 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
+			URL url = new URL("https://api.lojasquare.net" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
 			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("GET");
@@ -125,7 +111,7 @@ public class Shop {
 		// Trying
 		try {
 			// Connect in API server
-			URL url = new URL("https://api.lojasquare.com.br/" + endpoint);
+			URL url = new URL("https://api.lojasquare.net" + endpoint);
 			urlConnection = (HttpsURLConnection) url.openConnection();
 			urlConnection.addRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0) lojasquare");
 			urlConnection.setRequestMethod("PUT");
@@ -195,7 +181,7 @@ public class Shop {
 
 	public String getIpMaquina() {
 		if (ipMaquina == null) {
-			String getIP = this.get("/v1/autenticar/ip");
+			String getIP = this.get("/v1/sites/extensoes?showIP=true");
 			// checagem criada para evitar erros de repetição como este:
 			// https://prnt.sc/vql2p3
 			if (getIP.length() > 20) {

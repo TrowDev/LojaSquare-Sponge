@@ -36,7 +36,7 @@ public class ProductListener {
 				print("§3[LojaSquare] §bAntes do update delivery.");
 				Item item = event.getItem();
 				if(LojaSquare.get().getConnectionManager().getShop().updateDelivery(item)) {
-					LojaSquare.get().getConnectionManager().getProdutosEntregues().add(item.getIDEntrega());
+					LojaSquare.get().getConnectionManager().getProdutosEntregues().add(item.getEntregaID());
 					print("§3[LojaSquare] §bPreparando a entrega do produto: §a" + item.toString() + "§b.");
 					
 					// Apply
@@ -143,8 +143,7 @@ public class ProductListener {
 						.replace("@produto", item.getProduto())
 						.replace("@dias", item.getDias()+"")
 						.replace("@qnt", item.getQuantidade()+"")
-						.replace("@player", event.getPlayer().getName())
-						.replace("@cupom", item.getCupom());
+						.replace("@player", event.getPlayer().getName());
 				event.getPlayer().sendMessage(Text.of(message));
 			}
 		}

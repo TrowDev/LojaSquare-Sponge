@@ -34,13 +34,13 @@ public class ConnectionManager {
 	
 	// Verify if is valid IP
 	public Boolean checkIP() {
-		String jsonResult = this.shop.get("/v1/autenticar");
+		String jsonResult = this.shop.get("/v1/sites/extensoes");
 		
 		if( jsonResult.startsWith("LS-") || !jsonResult.contains("true")) {
 			LojaSquare.get().log("§3[LojaSquare] §cO sistema esta sendo desabilitado.");
 			LojaSquare.get().log("§3[LojaSquare] §cMotivo: " + jsonResult);
 			LojaSquare.get().log("§3[LojaSquare] §cKey-API: " + LojaSquare.get().getConfigManager().KEY_API);
-			LojaSquare.get().log("§ePara atualizar o IP, acesse: §ahttps://painel.lojasquare.com.br/config/plugin");
+			LojaSquare.get().log("§ePara atualizar o IP, acesse: §ahttps://painel.lojasquare.net/pages/config/site§e e clique em '§aAtivacao Automatica§e'");
 			LojaSquare.get().forceDisable();
 			return false;
 		}
@@ -119,8 +119,8 @@ public class ConnectionManager {
 						builder.execute(new Runnable() {
 							@Override
 							public void run() {
-								if(produtosEntregues.contains(item.getIDEntrega())) return;
-								print("§3[LojaSquare] §bPre Product Active Event. ID do produto: §a"+item.getIDEntrega()+"§b. Codigo: §a"+item.getCodigo());
+								if(produtosEntregues.contains(item.getEntregaID())) return;
+								print("§3[LojaSquare] §bPre Product Active Event. ID do produto: §a"+item.getEntregaID()+"§b. Codigo: §a"+item.getCodigo());
 								ProductPreActiveEvent productPreActiveEvent = new ProductPreActiveEvent(receiver, item, LojaSquare.get().getCause());
 								Sponge.getEventManager().post(productPreActiveEvent);
 							}

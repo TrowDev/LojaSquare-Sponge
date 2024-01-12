@@ -84,7 +84,7 @@ public class LojaSquare {
 		// Inform
 		this.log("§3[LojaSquare] §bPlugin ativado.");
 		this.log("§3Criador: §bTuskDev (Corrigido/Atualizado por TrowDev)");
-		this.log("§bDesejo a voce uma otima experiencia com o §dLojaSquare§b.");
+		this.log("§bDesejo a voce uma otima experiencia com a §dLojaSquare§b.");
 		
 		// Register the listeners
 		Sponge.getEventManager().registerListeners(this, new ProductListener());
